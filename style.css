@@ -10,6 +10,9 @@
     --shadow-color: rgba(0, 0, 0, 0.1);
     --container-width: 1200px;
     --focus-ring: 0 0 0 3px rgba(74, 144, 226, 0.2);
+    --gradient-primary: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
+    --gradient-success: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
+    --gradient-danger: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
 }
 
 [data-theme="dark"] {
@@ -29,6 +32,7 @@ body {
     color: var(--text-color);
     transition: all 0.3s ease;
     line-height: 1.5;
+    background-image: radial-gradient(circle at 50% 50%, rgba(74, 144, 226, 0.1) 0%, transparent 50%);
 }
 
 .container {
@@ -43,15 +47,17 @@ body {
     align-items: center;
     margin-bottom: 30px;
     padding: 20px;
-    background-color: var(--card-background);
+    background: var(--gradient-primary);
     border-radius: 12px;
     box-shadow: 0 4px 15px var(--shadow-color);
+    color: white;
 }
 
 .app-header h1 {
     margin: 0;
     font-size: 2.5em;
-    color: var(--primary-color);
+    color: white;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
 .app-header h1 i {
@@ -68,6 +74,13 @@ section {
     border-radius: 12px;
     padding: 25px;
     box-shadow: 0 4px 15px var(--shadow-color);
+    border: 1px solid var(--border-color);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+section:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px var(--shadow-color);
 }
 
 section h2 {
@@ -77,6 +90,8 @@ section h2 {
     display: flex;
     align-items: center;
     gap: 10px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--border-color);
 }
 
 .input-group {
@@ -141,28 +156,30 @@ button:focus {
 }
 
 .primary-btn {
-    background-color: var(--primary-color);
+    background: var(--gradient-primary);
     color: white;
 }
 
 .secondary-btn {
-    background-color: var(--secondary-color);
+    background: var(--gradient-primary);
     color: white;
+    opacity: 0.8;
 }
 
 .success-btn {
-    background-color: var(--success-color);
+    background: var(--gradient-success);
     color: white;
 }
 
 .danger-btn {
-    background-color: var(--danger-color);
+    background: var(--gradient-danger);
     color: white;
 }
 
 button:hover {
     transform: translateY(-2px);
     box-shadow: 0 4px 12px var(--shadow-color);
+    opacity: 1;
 }
 
 .period-selector {
@@ -200,6 +217,12 @@ button:hover {
     box-shadow: 0 2px 8px var(--shadow-color);
     transition: all 0.3s ease;
     cursor: help;
+    border: 1px solid var(--border-color);
+}
+
+.analysis-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 12px var(--shadow-color);
 }
 
 .analysis-item i {
@@ -229,6 +252,7 @@ button:hover {
     margin-top: 20px;
     border-radius: 8px;
     box-shadow: 0 2px 8px var(--shadow-color);
+    border: 1px solid var(--border-color);
 }
 
 table {
@@ -243,7 +267,7 @@ th, td {
 }
 
 th {
-    background-color: var(--primary-color);
+    background: var(--gradient-primary);
     color: white;
     font-weight: 600;
     position: sticky;
@@ -277,7 +301,7 @@ tr:hover {
 
 .theme-toggle {
     position: static;
-    background-color: var(--secondary-color);
+    background: var(--gradient-primary);
     color: white;
     padding: 10px 20px;
     border-radius: 8px;
@@ -286,8 +310,8 @@ tr:hover {
 }
 
 .theme-toggle:hover {
-    background-color: var(--primary-color);
     transform: translateY(-2px);
+    box-shadow: 0 4px 12px var(--shadow-color);
 }
 
 @media (max-width: 768px) {
