@@ -5,97 +5,167 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <title>Expense Tracker App</title>
 </head>
 <body>
-    <button id="theme-toggle" class="theme-toggle">🌙 Dark Mode</button>
-    <h1>Expense Tracker</h1>
-    <div class="input-section">
-        <div class="category-management">
-            <select id="category-select">
-                <option value="">Select a category</option>
-            </select>
-            <input type="text" id="new-category-input" placeholder="New category name">
-            <button id="add-category-btn">Add Category</button>
-            <button id="delete-category-btn" class="danger-btn">Delete Selected Category</button>
-        </div>
-        <input type="number" id="amount-input" placeholder="Amount">
-        <input type="date" id="date-input">
-        <button id="add-btn">Add</button>
-    </div>
+    <div class="container">
+        <header class="app-header">
+            <h1><i class="fas fa-wallet"></i> Expense Tracker</h1>
+            <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode">
+                <i class="fas fa-moon"></i> Dark Mode
+            </button>
+        </header>
 
-    <div class="period-summary">
-        <div class="period-selector">
-            <select id="period-select">
-                <option value="all">All Time</option>
-                <option value="month">This Month</option>
-                <option value="year">This Year</option>
-            </select>
-            <span id="period-total">Total: $0</span>
-        </div>
-        <div class="category-summary" id="category-summary">
-            <!-- Category summaries will be added here dynamically -->
-        </div>
-    </div>
+        <main class="app-content">
+            <section class="input-section">
+                <h2><i class="fas fa-plus-circle"></i> Add New Expense</h2>
+                <div class="category-management">
+                    <div class="input-group">
+                        <label for="category-select"><i class="fas fa-tags"></i> Category</label>
+                        <select id="category-select" required aria-required="true" title="Select an expense category">
+                            <option value="">Select a category</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label for="new-category-input"><i class="fas fa-plus"></i> New Category</label>
+                        <input type="text" id="new-category-input" placeholder="Enter category name" pattern="[A-Za-z0-9\s]+" title="Letters, numbers, and spaces only">
+                    </div>
+                    <div class="button-group">
+                        <button id="add-category-btn" class="success-btn" title="Add a new category">
+                            <i class="fas fa-plus"></i> Add Category
+                        </button>
+                        <button id="delete-category-btn" class="danger-btn" title="Delete selected category">
+                            <i class="fas fa-trash"></i> Delete Selected
+                        </button>
+                    </div>
+                </div>
+                <div class="expense-inputs">
+                    <div class="input-group">
+                        <label for="amount-input"><i class="fas fa-dollar-sign"></i> Amount</label>
+                        <input type="number" id="amount-input" placeholder="0.00" min="0.01" step="0.01" required aria-required="true" title="Enter amount greater than 0">
+                    </div>
+                    <div class="input-group">
+                        <label for="date-input"><i class="fas fa-calendar"></i> Date</label>
+                        <input type="date" id="date-input" required aria-required="true" title="Select expense date">
+                    </div>
+                    <button id="add-btn" class="primary-btn" title="Add new expense">
+                        <i class="fas fa-plus"></i> Add Expense
+                    </button>
+                </div>
+            </section>
 
-    <div class="filter-section">
-        <input type="text" id="search-input" placeholder="Search expenses...">
-        <select id="filter-category">
-            <option value="">All Categories</option>
-        </select>
-        <select id="filter-period">
-            <option value="">All Time</option>
-            <option value="this-month">This Month</option>
-            <option value="this-year">This Year</option>
-        </select>
-        <button id="reset-filters-btn">Reset Filters</button>
-        <button id="delete-all-btn" class="danger-btn">Delete All Expenses</button>
-    </div>
+            <section class="period-summary">
+                <h2><i class="fas fa-chart-pie"></i> Summary</h2>
+                <div class="period-selector">
+                    <div class="input-group">
+                        <label for="period-select"><i class="fas fa-clock"></i> Time Period</label>
+                        <select id="period-select" title="Select time period for summary">
+                            <option value="all">All Time</option>
+                            <option value="month">This Month</option>
+                            <option value="year">This Year</option>
+                        </select>
+                    </div>
+                    <div class="total-display">
+                        <span>Total:</span>
+                        <span id="period-total" aria-live="polite">$0</span>
+                    </div>
+                </div>
+                <div class="category-summary" id="category-summary" aria-live="polite">
+                    <!-- Category summaries will be added here dynamically -->
+                </div>
+            </section>
 
-    <div class="expense-analysis">
-        <h3>Expense Analysis</h3>
-        <div class="analysis-grid">
-            <div class="analysis-item">
-                <span>Highest Expense:</span>
-                <span id="highest-expense">$0</span>
-            </div>
-            <div class="analysis-item">
-                <span>Lowest Expense:</span>
-                <span id="lowest-expense">$0</span>
-            </div>
-            <div class="analysis-item">
-                <span>Average Expense:</span>
-                <span id="average-expense">$0</span>
-            </div>
-        </div>
-    </div>
+            <section class="filter-section">
+                <h2><i class="fas fa-filter"></i> Filter Expenses</h2>
+                <div class="filter-controls">
+                    <div class="input-group">
+                        <label for="search-input"><i class="fas fa-search"></i> Search</label>
+                        <input type="text" id="search-input" placeholder="Search by category, amount, or date" title="Search expenses">
+                    </div>
+                    <div class="input-group">
+                        <label for="filter-category"><i class="fas fa-tags"></i> Category</label>
+                        <select id="filter-category" title="Filter by category">
+                            <option value="">All Categories</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label for="filter-period"><i class="fas fa-calendar"></i> Period</label>
+                        <select id="filter-period" title="Filter by time period">
+                            <option value="">All Time</option>
+                            <option value="this-month">This Month</option>
+                            <option value="this-year">This Year</option>
+                        </select>
+                    </div>
+                    <div class="button-group">
+                        <button id="reset-filters-btn" class="secondary-btn" title="Reset all filters">
+                            <i class="fas fa-undo"></i> Reset Filters
+                        </button>
+                        <button id="delete-all-btn" class="danger-btn" title="Delete all expenses">
+                            <i class="fas fa-trash"></i> Delete All
+                        </button>
+                    </div>
+                </div>
+            </section>
 
-    <div class="expenses-list">
-        <h2>Expenses List</h2>
-        <div id="empty-state" class="empty-state" style="display: none;">
-            No expenses found. Add your first expense!
-        </div>
-        <table>
-            <thead>
-                <tr>
-                    <th>Category</th>
-                    <th>Amount</th>
-                    <th>Date</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody id="expense-table-body">
-                <!-- Expenses will be added here dynamically -->
-            </tbody>
-            <tfoot>
-                <tr>
-                    <td>Total:</td>
-                    <td id="total-amount">$0</td>
-                    <td></td>
-                    <td></td>
-                </tr>
-            </tfoot>
-        </table>
+            <section class="expense-analysis">
+                <h2><i class="fas fa-chart-bar"></i> Analysis</h2>
+                <div class="analysis-grid">
+                    <div class="analysis-item" title="Highest expense amount">
+                        <i class="fas fa-arrow-up"></i>
+                        <div class="analysis-content">
+                            <span>Highest Expense</span>
+                            <span id="highest-expense" aria-live="polite">$0</span>
+                        </div>
+                    </div>
+                    <div class="analysis-item" title="Lowest expense amount">
+                        <i class="fas fa-arrow-down"></i>
+                        <div class="analysis-content">
+                            <span>Lowest Expense</span>
+                            <span id="lowest-expense" aria-live="polite">$0</span>
+                        </div>
+                    </div>
+                    <div class="analysis-item" title="Average expense amount">
+                        <i class="fas fa-calculator"></i>
+                        <div class="analysis-content">
+                            <span>Average Expense</span>
+                            <span id="average-expense" aria-live="polite">$0</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="expenses-list">
+                <h2><i class="fas fa-list"></i> Expenses</h2>
+                <div id="empty-state" class="empty-state" aria-live="polite">
+                    <i class="fas fa-inbox"></i>
+                    <p>No expenses found. Add your first expense!</p>
+                </div>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th><i class="fas fa-tags"></i> Category</th>
+                                <th><i class="fas fa-dollar-sign"></i> Amount</th>
+                                <th><i class="fas fa-calendar"></i> Date</th>
+                                <th><i class="fas fa-cogs"></i> Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="expense-table-body" aria-live="polite">
+                            <!-- Expenses will be added here dynamically -->
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td>Total:</td>
+                                <td id="total-amount" aria-live="polite">$0</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </section>
+        </main>
     </div>
     <script src="script.js"></script>
 </body>
