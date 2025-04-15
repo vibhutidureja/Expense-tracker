@@ -44,6 +44,29 @@ document.addEventListener('DOMContentLoaded', function() {
     const averageExpenseElement = document.getElementById('average-expense');
     const emptyState = document.getElementById('empty-state');
 
+    // Theme toggle functionality
+    const themeToggle = document.getElementById('theme-toggle');
+    const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+
+    function setTheme(isDark) {
+        document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
+        themeToggle.textContent = isDark ? '☀️ Light Mode' : '🌙 Dark Mode';
+    }
+
+    // Initialize theme based on system preference
+    setTheme(prefersDarkScheme.matches);
+
+    // Toggle theme on button click
+    themeToggle.addEventListener('click', () => {
+        const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+        setTheme(!isDark);
+    });
+
+    // Listen for system theme changes
+    prefersDarkScheme.addEventListener('change', (e) => {
+        setTheme(e.matches);
+    });
+
     // Save data to localStorage
     function saveData() {
         localStorage.setItem('expenses', JSON.stringify(expenses));
