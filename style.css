@@ -76,6 +76,7 @@ button {
     font-size: 1em;
     cursor: pointer;
     transition: all 0.2s ease;
+    color: white;
 }
 
 button:hover {
@@ -83,7 +84,12 @@ button:hover {
     box-shadow: 0 2px 5px var(--shadow-color);
 }
 
-.success-btn, button[id="add-btn"] {
+.primary-btn, #add-btn {
+    background: var(--gradient-primary);
+    color: white;
+}
+
+.success-btn {
     background: var(--gradient-success);
     color: white;
 }

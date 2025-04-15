@@ -18,6 +18,7 @@
         </header>
 
         <main class="app-content">
+            <!-- Add Expense Section -->
             <section class="input-section">
                 <h2><i class="fas fa-plus-circle"></i> Add New Expense</h2>
                 <div class="category-management">
@@ -55,6 +56,7 @@
                 </div>
             </section>
 
+            <!-- Summary Section -->
             <section class="period-summary">
                 <h2><i class="fas fa-chart-pie"></i> Summary</h2>
                 <div class="period-selector">
@@ -71,11 +73,10 @@
                         <span id="period-total" aria-live="polite">$0</span>
                     </div>
                 </div>
-                <div class="category-summary" id="category-summary" aria-live="polite">
-                    <!-- Category summaries will be added here dynamically -->
-                </div>
+                <div class="category-summary" id="category-summary" aria-live="polite"></div>
             </section>
 
+            <!-- Filter Section -->
             <section class="filter-section">
                 <h2><i class="fas fa-filter"></i> Filter Expenses</h2>
                 <div class="filter-controls">
@@ -108,6 +109,7 @@
                 </div>
             </section>
 
+            <!-- Analysis Section -->
             <section class="expense-analysis">
                 <h2><i class="fas fa-chart-bar"></i> Analysis</h2>
                 <div class="analysis-grid">
@@ -135,6 +137,7 @@
                 </div>
             </section>
 
+            <!-- Expenses List Section -->
             <section class="expenses-list">
                 <h2><i class="fas fa-list"></i> Expenses</h2>
                 <div id="empty-state" class="empty-state" aria-live="polite">
@@ -151,9 +154,7 @@
                                 <th><i class="fas fa-cogs"></i> Actions</th>
                             </tr>
                         </thead>
-                        <tbody id="expense-table-body" aria-live="polite">
-                            <!-- Expenses will be added here dynamically -->
-                        </tbody>
+                        <tbody id="expense-table-body" aria-live="polite"></tbody>
                     </table>
                 </div>
             </section>
