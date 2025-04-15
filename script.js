@@ -1,4 +1,32 @@
 document.addEventListener('DOMContentLoaded', function() {
+    // Dark mode functionality
+    const themeToggleBtn = document.getElementById('theme-toggle-btn');
+    const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+    
+    function updateThemeIcon(isDark) {
+        themeToggleBtn.textContent = isDark ? '☀️' : '🌙';
+    }
+
+    function setTheme(isDark) {
+        document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
+        updateThemeIcon(isDark);
+    }
+
+    // Initialize theme based on system preference
+    setTheme(prefersDarkScheme.matches);
+    updateThemeIcon(prefersDarkScheme.matches);
+
+    // Listen for system theme changes
+    prefersDarkScheme.addEventListener('change', (e) => {
+        setTheme(e.matches);
+    });
+
+    // Toggle theme on button click
+    themeToggleBtn.addEventListener('click', () => {
+        const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+        setTheme(!isDark);
+    });
+
     let expenses = JSON.parse(localStorage.getItem('expenses')) || [];
     let categories = JSON.parse(localStorage.getItem('categories')) || [
         'Food & Groceries',

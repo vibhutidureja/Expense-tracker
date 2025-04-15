@@ -1,4 +1,4 @@
-                                                                                                                                        :root {
+:root {
     --primary-color: #2196F3;
     --secondary-color: #1976D2;
     --success-color: #4CAF50;
@@ -7,6 +7,18 @@
     --card-background: #ffffff;
     --text-color: #333333;
     --border-color: #e0e0e0;
+}
+
+/* Dark mode variables */
+[data-theme="dark"] {
+    --primary-color: #64B5F6;
+    --secondary-color: #90CAF9;
+    --success-color: #81C784;
+    --danger-color: #E57373;
+    --background-color: #121212;
+    --card-background: #1E1E1E;
+    --text-color: #E0E0E0;
+    --border-color: #424242;
 }
 
 body {
@@ -379,4 +391,28 @@ button:focus, input:focus, select:focus {
 /* Better date display in table */
 table td:nth-child(3) {
     white-space: nowrap;
+}
+
+/* Theme toggle button styles */
+.theme-toggle {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 100;
+}
+
+#theme-toggle-btn {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 50%;
+    background-color: var(--card-background);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    transition: transform 0.3s ease;
+}
+
+#theme-toggle-btn:hover {
+    transform: scale(1.1);
 }
