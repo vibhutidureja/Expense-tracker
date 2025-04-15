@@ -3,22 +3,29 @@ document.addEventListener('DOMContentLoaded', function() {
     const themeToggleBtn = document.getElementById('theme-toggle-btn');
     const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
     
+    // Get saved theme preference or use system preference
+    const savedTheme = localStorage.getItem('theme');
+    const initialTheme = savedTheme || (prefersDarkScheme.matches ? 'dark' : 'light');
+    
     function updateThemeIcon(isDark) {
         themeToggleBtn.textContent = isDark ? '☀️' : '🌙';
     }
 
     function setTheme(isDark) {
-        document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
+        const theme = isDark ? 'dark' : 'light';
+        document.documentElement.setAttribute('data-theme', theme);
+        localStorage.setItem('theme', theme);
         updateThemeIcon(isDark);
     }
 
-    // Initialize theme based on system preference
-    setTheme(prefersDarkScheme.matches);
-    updateThemeIcon(prefersDarkScheme.matches);
+    // Initialize theme
+    setTheme(initialTheme === 'dark');
 
     // Listen for system theme changes
     prefersDarkScheme.addEventListener('change', (e) => {
-        setTheme(e.matches);
+        if (!localStorage.getItem('theme')) { // Only follow system preference if no user preference is set
+            setTheme(e.matches);
+        }
     });
 
     // Toggle theme on button click

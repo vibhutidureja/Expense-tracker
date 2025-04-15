@@ -7,6 +7,7 @@
     --card-background: #ffffff;
     --text-color: #333333;
     --border-color: #e0e0e0;
+    --transition-duration: 0.3s;
 }
 
 /* Dark mode variables */
@@ -406,13 +407,53 @@ table td:nth-child(3) {
     border: none;
     font-size: 24px;
     cursor: pointer;
-    padding: 8px;
+    padding: 12px;
     border-radius: 50%;
     background-color: var(--card-background);
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-    transition: transform 0.3s ease;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    transition: all var(--transition-duration) ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
 }
 
 #theme-toggle-btn:hover {
     transform: scale(1.1);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+}
+
+/* Add smooth transitions for theme changes */
+body, .input-section, .filter-section, .expense-analysis, 
+.expenses-list, .period-summary, .category-summary-item,
+.analysis-item, table, th, td {
+    transition: background-color var(--transition-duration) ease,
+                color var(--transition-duration) ease,
+                border-color var(--transition-duration) ease;
+}
+
+/* Improve dark mode table styling */
+[data-theme="dark"] table {
+    border-color: var(--border-color);
+}
+
+[data-theme="dark"] th {
+    background-color: var(--secondary-color);
+}
+
+[data-theme="dark"] tr:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+/* Improve dark mode input fields */
+[data-theme="dark"] input,
+[data-theme="dark"] select {
+    background-color: var(--card-background);
+    color: var(--text-color);
+    border-color: var(--border-color);
+}
+
+[data-theme="dark"] input::placeholder {
+    color: rgba(255, 255, 255, 0.5);
 }
