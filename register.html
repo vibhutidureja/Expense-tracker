@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="light dark">
+    <link rel="stylesheet" href="style.css">
+    <title>Register - Expense Tracker</title>
+</head>
+<body>
+    <div class="theme-toggle">
+        <button id="theme-toggle-btn" title="Toggle dark/light mode">🌙</button>
+    </div>
+    <div class="login-container">
+        <div class="login-card">
+            <h1>Expense Tracker</h1>
+            <h2>Create Account</h2>
+            <form id="register-form">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <div class="form-group">
+                    <label for="confirm-password">Confirm Password</label>
+                    <input type="password" id="confirm-password" name="confirm-password" required>
+                </div>
+                <button type="submit" class="login-btn">Register</button>
+                <p class="register-link">Already have an account? <a href="login.html">Login here</a></p>
+            </form>
+        </div>
+    </div>
+    <script src="auth.js"></script>
+    <script>
+        // Theme toggle functionality
+        const themeToggleBtn = document.getElementById('theme-toggle-btn');
+        const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+        
+        // Get saved theme preference or use system preference
+        const savedTheme = localStorage.getItem('theme');
+        const initialTheme = savedTheme || (prefersDarkScheme.matches ? 'dark' : 'light');
+        
+        function updateThemeIcon(isDark) {
+            themeToggleBtn.textContent = isDark ? '☀️' : '🌙';
+        }
+
+        function setTheme(isDark) {
+            const theme = isDark ? 'dark' : 'light';
+            document.documentElement.setAttribute('data-theme', theme);
+            localStorage.setItem('theme', theme);
+            updateThemeIcon(isDark);
+        }
+
+        // Initialize theme
+        setTheme(initialTheme === 'dark');
+
+        // Listen for system theme changes
+        prefersDarkScheme.addEventListener('change', (e) => {
+            if (!localStorage.getItem('theme')) {
+                setTheme(e.matches);
+            }
+        });
+
+        // Toggle theme on button click
+        themeToggleBtn.addEventListener('click', () => {
+            const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+            setTheme(!isDark);
+        });
+    </script>
+</body>
+</html>

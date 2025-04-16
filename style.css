@@ -457,3 +457,142 @@ body, .input-section, .filter-section, .expense-analysis,
 [data-theme="dark"] input::placeholder {
     color: rgba(255, 255, 255, 0.5);
 }
+
+/* Login and Register Styles */
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+    background-color: var(--background-color);
+}
+
+.login-card {
+    background-color: var(--card-background);
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+    transition: all var(--transition-duration) ease;
+}
+
+.login-card h1 {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.login-card h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    color: var(--secondary-color);
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--text-color);
+    font-weight: 600;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid var(--border-color);
+    border-radius: 6px;
+    font-size: 1em;
+    background-color: var(--card-background);
+    color: var(--text-color);
+    transition: border-color var(--transition-duration) ease;
+}
+
+.form-group input:focus {
+    border-color: var(--primary-color);
+    outline: none;
+}
+
+.login-btn {
+    width: 100%;
+    padding: 12px;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 1em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color var(--transition-duration) ease;
+}
+
+.login-btn:hover {
+    background-color: var(--secondary-color);
+}
+
+.register-link {
+    text-align: center;
+    margin-top: 20px;
+    color: var(--text-color);
+}
+
+.register-link a {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.register-link a:hover {
+    text-decoration: underline;
+}
+
+/* Error message styling */
+.error-message {
+    color: var(--danger-color);
+    text-align: center;
+    margin-top: 15px;
+    font-size: 0.9em;
+}
+
+/* Success message styling */
+.success-message {
+    color: var(--success-color);
+    text-align: center;
+    margin-top: 15px;
+    font-size: 0.9em;
+    font-weight: 600;
+}
+
+/* User info and logout button styles */
+.user-info {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    z-index: 100;
+}
+
+#welcome-message {
+    color: var(--text-color);
+    font-weight: 600;
+}
+
+.logout-btn {
+    padding: 8px 16px;
+    background-color: var(--danger-color);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color var(--transition-duration) ease;
+}
+
+.logout-btn:hover {
+    background-color: #d32f2f;
+}

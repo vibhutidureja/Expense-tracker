@@ -1,4 +1,23 @@
 document.addEventListener('DOMContentLoaded', function() {
+    // Check authentication
+    const currentUser = localStorage.getItem('currentUser');
+    if (!currentUser) {
+        window.location.href = 'login.html';
+        return;
+    }
+
+    // Update welcome message
+    const welcomeMessage = document.getElementById('welcome-message');
+    welcomeMessage.textContent += currentUser;
+
+    // Handle logout
+    document.getElementById('logout-btn').addEventListener('click', () => {
+        if (confirm('Are you sure you want to logout?')) {
+            localStorage.removeItem('currentUser');
+            window.location.href = 'login.html';
+        }
+    });
+
     // Dark mode functionality
     const themeToggleBtn = document.getElementById('theme-toggle-btn');
     const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
@@ -23,7 +42,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Listen for system theme changes
     prefersDarkScheme.addEventListener('change', (e) => {
-        if (!localStorage.getItem('theme')) { // Only follow system preference if no user preference is set
+        if (!localStorage.getItem('theme')) {
             setTheme(e.matches);
         }
     });
@@ -34,8 +53,9 @@ document.addEventListener('DOMContentLoaded', function() {
         setTheme(!isDark);
     });
 
-    let expenses = JSON.parse(localStorage.getItem('expenses')) || [];
-    let categories = JSON.parse(localStorage.getItem('categories')) || [
+    // Initialize user data
+    let expenses = JSON.parse(localStorage.getItem(`${currentUser}_expenses`)) || [];
+    let categories = JSON.parse(localStorage.getItem(`${currentUser}_categories`)) || [
         'Food & Groceries',
         'Transportation',
         'Housing & Rent',
@@ -78,8 +98,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const emptyState = document.getElementById('empty-state');
 
     function saveData() {
-        localStorage.setItem('expenses', JSON.stringify(expenses));
-        localStorage.setItem('categories', JSON.stringify(categories));
+        localStorage.setItem(`${currentUser}_expenses`, JSON.stringify(expenses));
+        localStorage.setItem(`${currentUser}_categories`, JSON.stringify(categories));
     }
 
     function initializeCategories() {
@@ -181,7 +201,7 @@ document.addEventListener('DOMContentLoaded', function() {
             expensesTableBody.style.display = 'table-row-group';
         }
 
-        filteredExpenses.forEach(expense => {
+        filteredExpenses.forEach((expense, index) => {
             filteredTotal += expense.amount;
             const newRow = expensesTableBody.insertRow();
 
@@ -194,7 +214,7 @@ document.addEventListener('DOMContentLoaded', function() {
             deleteBtn.textContent = 'Delete';
             deleteBtn.classList.add('delete-btn');
             deleteBtn.addEventListener('click', () => {
-                expenses = expenses.filter(e => e !== expense);
+                expenses.splice(index, 1);
                 totalAmount -= expense.amount;
                 saveData();
                 renderExpenses();
@@ -216,14 +236,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 addBtn.parentNode.replaceChild(newAddBtn, addBtn);
 
                 newAddBtn.addEventListener('click', function updateHandler() {
-                    const index = expenses.findIndex(e => e === expense);
-                    if (index !== -1) {
-                        expenses[index] = {
-                            category: categorySelect.value,
-                            amount: Number(amountInput.value),
-                            date: dateInput.value
-                        };
-                    }
+                    expenses[index] = {
+                        category: categorySelect.value,
+                        amount: Number(amountInput.value),
+                        date: dateInput.value
+                    };
 
                     totalAmount = expenses.reduce((sum, e) => sum + e.amount, 0);
                     saveData();
@@ -311,12 +328,14 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
+    // Initialize the application
     initializeCategories();
     renderExpenses();
     updateExpenseAnalysis();
     updateCategorySummary();
     updatePeriodTotal();
 
+    // Add event listeners
     addBtn.addEventListener('click', function() {
         const category = categorySelect.value;
         const amount = Number(amountInput.value);
@@ -335,7 +354,8 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
-        expenses.push({ category, amount, date });
+        const expense = { category, amount, date };
+        expenses.push(expense);
         totalAmount += amount;
         saveData();
         renderExpenses();
