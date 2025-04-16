@@ -1,7 +1,5 @@
-// User authentication class
 class Auth {
     constructor() {
-        this.currentUser = null;
         this.initializeUsers();
     }
 
@@ -18,18 +16,11 @@ class Auth {
     register(username, email, password) {
         const users = this.getUsers();
         
-        // Check if username already exists
         if (users.some(user => user.username === username)) {
             throw new Error('Username already exists');
         }
 
-        // Add new user
-        users.push({
-            username,
-            email,
-            password: this.hashPassword(password)
-        });
-
+        users.push({ username, email, password: btoa(password) });
         localStorage.setItem('users', JSON.stringify(users));
         return true;
     }
@@ -38,60 +29,36 @@ class Auth {
         const users = this.getUsers();
         const user = users.find(user => user.username === username);
         
-        if (!user) {
+        if (!user || btoa(password) !== user.password) {
             return false;
         }
 
-        const isPasswordValid = this.verifyPassword(password, user.password);
-        if (isPasswordValid) {
-            this.currentUser = username;
-            localStorage.setItem('currentUser', username);
-            return true;
-        }
-        return false;
+        localStorage.setItem('currentUser', username);
+        return true;
     }
 
     logout() {
-        this.currentUser = null;
         localStorage.removeItem('currentUser');
-    }
-
-    hashPassword(password) {
-        // In a real application, use a proper hashing algorithm like bcrypt
-        return btoa(password);
-    }
-
-    verifyPassword(password, hash) {
-        return btoa(password) === hash;
-    }
-
-    isAuthenticated() {
-        return !!this.currentUser;
     }
 }
 
-// Initialize auth instance
+// Initialize auth
 const auth = new Auth();
 
-// Handle login form submission
+// Handle login form
 document.getElementById('login-form')?.addEventListener('submit', (e) => {
     e.preventDefault();
     const username = document.getElementById('username').value;
     const password = document.getElementById('password').value;
 
-    try {
-        const success = auth.login(username, password);
-        if (success) {
-            window.location.href = 'index.html';
-        } else {
-            showError('Invalid username or password');
-        }
-    } catch (error) {
-        showError(error.message);
+    if (auth.login(username, password)) {
+        window.location.href = 'index.html';
+    } else {
+        showMessage('Invalid username or password', 'error');
     }
 });
 
-// Handle register form submission
+// Handle register form
 document.getElementById('register-form')?.addEventListener('submit', (e) => {
     e.preventDefault();
     const username = document.getElementById('username').value;
@@ -100,47 +67,35 @@ document.getElementById('register-form')?.addEventListener('submit', (e) => {
     const confirmPassword = document.getElementById('confirm-password').value;
 
     if (password !== confirmPassword) {
-        showError('Passwords do not match');
+        showMessage('Passwords do not match', 'error');
         return;
     }
 
     try {
         auth.register(username, email, password);
-        showSuccess('Registration successful! Redirecting to login...');
-        setTimeout(() => {
-            window.location.href = 'login.html';
-        }, 1500);
+        showMessage('Registration successful! Redirecting to login...', 'success');
+        setTimeout(() => window.location.href = 'login.html', 1500);
     } catch (error) {
-        showError(error.message);
+        showMessage(error.message, 'error');
     }
 });
 
-function showError(message) {
-    let errorDiv = document.querySelector('.error-message');
-    if (!errorDiv) {
-        errorDiv = document.createElement('div');
-        errorDiv.className = 'error-message';
-        document.querySelector('form').appendChild(errorDiv);
+// Show messages
+function showMessage(message, type) {
+    const div = document.createElement('div');
+    div.className = `${type}-message`;
+    div.textContent = message;
+    
+    const form = document.querySelector('form');
+    const existingMessage = form.querySelector(`.${type}-message`);
+    if (existingMessage) {
+        existingMessage.remove();
     }
-    errorDiv.textContent = message;
+    
+    form.appendChild(div);
 }
 
-function showSuccess(message) {
-    let successDiv = document.querySelector('.success-message');
-    if (!successDiv) {
-        successDiv = document.createElement('div');
-        successDiv.className = 'success-message';
-        document.querySelector('form').appendChild(successDiv);
-    }
-    successDiv.textContent = message;
-}
-
-// Check authentication on main page
-if (window.location.pathname.includes('index.html')) {
-    const currentUser = localStorage.getItem('currentUser');
-    if (!currentUser) {
-        window.location.href = 'login.html';
-    } else {
-        auth.currentUser = currentUser;
-    }
+// Check authentication
+if (window.location.pathname.includes('index.html') && !localStorage.getItem('currentUser')) {
+    window.location.href = 'login.html';
 } 
